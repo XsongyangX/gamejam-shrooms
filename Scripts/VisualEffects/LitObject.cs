@@ -102,16 +102,19 @@ public class LitObject : MonoBehaviour
     {
         mpb.SetColor("_HighlightColor", color);
         mpb.SetFloat("_HighlightFactor", 1);
+        RefreshRenderers();
     }
 
     public void RemoveHighlight()
     {
         mpb.SetFloat("_HighlightFactor", 0);
+        RefreshRenderers();
     }
 
     private void OnDestroy()
     {
         all.Remove(this);
+        RepaintAll();
     }
 
     public void Repaint()

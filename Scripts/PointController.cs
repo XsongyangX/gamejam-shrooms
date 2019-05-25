@@ -11,6 +11,9 @@ public class PointController : MonoBehaviour
     
     bool isSelected, isHighlighted;
 
+    // cutting algorithm
+    public bool visited;
+
     public void CreatePoint(int n, GameManager gm)
     {
         positionN = n;
@@ -38,27 +41,42 @@ public class PointController : MonoBehaviour
     // mouse click
     void OnMouseDown()
     {
+        if(isHighlighted)
+        {
+            gameManager.ExpandMushroom(this);
+        }
+        else if(GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM)
+        {
+            isSelected = true;
+            Debug.Log("Mooshroom");
+            gameManager.TileSelect(this);
+        }
+
+    }
+    public void Select()
+    {
         isSelected = true;
-        
-
-        gameManager.TileSelect(this);
-        HighlightVoisin();
-
+        // Selection visuelle
+        GetComponent<TileBehaviour>().Highlight(Color.blue);
     }
 
     public void Deselect()
     {
         isSelected = false;
+        // Déselection visuelle
+        GetComponent<TileBehaviour>().RemoveHighlight();
     }
 
     public void HighlightVoisin()
     {
         foreach(GameObject aTile in ListeVoisin)
         {
-            aTile.GetComponent<PointController>().isHighlighted = true;
-            aTile.GetComponent<PointController>().HighlightSelf();
+            if(aTile.GetComponent<TileBehaviour>().type != TileBehaviour.Type.MUSHROOM)
+            {
+                aTile.GetComponent<PointController>().isHighlighted = true;
+                aTile.GetComponent<PointController>().HighlightSelf();
+            }
         }
-
     }
     public void NormalVoisin()
     {
@@ -71,10 +89,12 @@ public class PointController : MonoBehaviour
     }
     public void HighlightSelf()
     {
+        GetComponent<TileBehaviour>().Highlight(Color.cyan);
         // Highlight
     }
     public void NormalSelf()
     {
+        GetComponent<TileBehaviour>().RemoveHighlight();
         // Normal
     }
 

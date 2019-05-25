@@ -30,7 +30,7 @@ float3 GetLighting(float3 position, float3 normal) {
 			float rdv = saturate(dot(normalize(reflectDir), normalize(view)));
 			float spec = pow(rdv, _SpecularSmoothness * 100);
 
-			result += _LightColor[i] * ndotl * fade + _LightColor[i] * spec * _SpecularIntensity * fade;
+			result += _LightColor[i] * ndotl * fade + _LightColor[i] * spec * _SpecularIntensity * ndotl * fade;
 		}
 	}
 

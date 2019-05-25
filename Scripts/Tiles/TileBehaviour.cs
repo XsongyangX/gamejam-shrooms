@@ -77,10 +77,12 @@ public class TileBehaviour : MonoBehaviour
         if (type == Type.CITY)
         {
             TurnManager.cityProgress -= TurnManager.cityTileWeight;
+            TurnManager.cityTileCount--;
         }
-        else if (type == Type.MUSHROOM)
+        else if (type == Type.MUSHROOM || type == Type.CORE)
         {
             TurnManager.mushroomProgress -= TurnManager.mushroomTileWeight;
+            TurnManager.mushroomTileCount--;
         }
 
         type = newType;
@@ -88,10 +90,12 @@ public class TileBehaviour : MonoBehaviour
         if (newType == Type.CITY)
         {
             TurnManager.cityProgress += TurnManager.cityTileWeight;
+            TurnManager.cityTileCount++;
         }
-        else if (newType == Type.MUSHROOM)
+        else if (newType == Type.MUSHROOM || type == Type.CORE)
         {
             TurnManager.mushroomProgress += TurnManager.mushroomTileWeight;
+            TurnManager.mushroomTileCount++;
         }
 
         // Update Visuals here
@@ -101,6 +105,7 @@ public class TileBehaviour : MonoBehaviour
 
     public void Colonise(TileBehaviour from)
     {
+        /*
         if (from.point.ListeVoisin.Contains(gameObject)) // Ils sont voisins
         {
             if (TurnManager.CurrentTeamHasEnoughActionPoints(actionCost)) // Assez de points d'action
@@ -110,6 +115,10 @@ public class TileBehaviour : MonoBehaviour
                 //Transition de une tuile a une autre
             }
         }
+        */
+
+        TurnManager.SpendActionPoints(actionCost);
+        SetType(from.type);
     }
 
     public void Highlight(Color color)

@@ -17,6 +17,15 @@ public class TurnManager : MonoBehaviour
     public const float cityTileWeight = 0.1f;
     public const float mushroomTileWeight = 0.2f;
 
+    public static int mushroomTileCount = 0;
+    public static int cityTileCount = 0;
+
+    public static int GetCurrentTeamActionPoints()
+    {
+        if (currentTurn == TurnType.CITY) return cityActionPoints;
+        else return mushroomActionPoints;
+    }
+
     public static bool CurrentTeamHasEnoughActionPoints(int cost)
     {
         if (currentTurn == TurnType.MUSHROOM) return mushroomActionPoints >= cost;
@@ -39,12 +48,14 @@ public class TurnManager : MonoBehaviour
         if (currentTurn == TurnType.MUSHROOM)
         {
             currentTurn = TurnType.CITY;
-            cityActionPoints += GetPointsFromProgress(cityProgress);
-        } else
-        {
-            currentTurn = TurnType.MUSHROOM;
             mushroomActionPoints += GetPointsFromProgress(mushroomProgress);
         }
+        else
+        {
+            currentTurn = TurnType.MUSHROOM;
+            cityActionPoints += GetPointsFromProgress(cityProgress);
+        }
+        UIManager.UpdateTurnLabel();
     }
 
     private void Update()
@@ -59,5 +70,23 @@ public class TurnManager : MonoBehaviour
             StartNewTurn();
             // Remove Highlight
         }
+    }
+
+    private void OnGUI()
+    {
+        GUILayout.BeginVertical(GUI.skin.box);
+
+        GUILayout.Label("Current Team Turn: " + currentTurn);
+        GUILayout.Label("Remaining Action Points: " + GetCurrentTeamActionPoints());
+        if (GUILayout.Button("Skip Turn"))
+        {
+            StartNewTurn();
+        }
+        GUILayout.Space(10);
+        GUILayout.Label("Mushroom Tile Count: " + mushroomTileCount);
+        GUILayout.Label("City Tile Count: " + cityTileCount);
+
+
+        GUILayout.EndVertical();
     }
 }
