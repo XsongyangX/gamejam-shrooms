@@ -804,7 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f54e067d75c50240acce69300247116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualSkyscraper: {fileID: 4247890190960847978, guid: e44b6437f438d0642b2e21c97ee0a22a,
+  visualSkyscraper: {fileID: 3125127962154990070, guid: e44b6437f438d0642b2e21c97ee0a22a,
     type: 3}
   gameManager: {fileID: 300826897}
   listMushrooms: []
