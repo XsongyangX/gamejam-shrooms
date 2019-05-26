@@ -15,13 +15,11 @@ public class CityPlayer : MonoBehaviour
     public void AddTerritory(PointController point)
     {
         territory.Add(point);
-        Debug.Log("Added " + point.positionN);
     }
 
     public void RemoveTerritory(PointController point)
     {
         territory.Remove(point);
-        Debug.Log("Removed " + point.positionN);
     }
 
     public void Play()
@@ -34,7 +32,6 @@ public class CityPlayer : MonoBehaviour
         while (TurnManager.cityActionPointsAmount > 0)
         {
             Decide();
-            Debug.Log("One Coroutine");
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -44,7 +41,6 @@ public class CityPlayer : MonoBehaviour
         // no territory, exception
         if (territory.Count == 0) throw new System.Exception();
 
-        Debug.Log("In decide");
         // list all possible neighbors to expand to
         List<GameObject> possibilities = new List<GameObject>();
         foreach(PointController element in territory)
@@ -103,7 +99,6 @@ public class CityPlayer : MonoBehaviour
 
 
 
-        Debug.Log("Disconnect begin");
         // get all nodes assuming they are not visited
 
         // DFS on all the nodes
@@ -114,7 +109,6 @@ public class CityPlayer : MonoBehaviour
         {
             GameObject CurrentTile = stack.Pop();
             CurrentTile.GetComponent<PointController>().visited = true;
-            Debug.Log("Visited " + CurrentTile.GetComponent<PointController>().positionN);
             foreach(GameObject aVoisin in CurrentTile.GetComponent<PointController>().ListeVoisin)
             {
                 if(aVoisin.GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM && !aVoisin.GetComponent<PointController>().visited)
@@ -140,7 +134,6 @@ public class CityPlayer : MonoBehaviour
         }
 
 
-        Debug.Log("Disconnect end");
         return disconnected;
     }
 }

@@ -6,8 +6,8 @@ public class TurnManager : MonoBehaviour
 {
     public enum TurnType { CITY, MUSHROOM};
 
-    public GameObject cityPlayer, gameManager;
-
+    public GameObject cityPlayer, gameManager, musicManager;
+    
     public int numberOfBuiltTilesForMusic = 10;
 
     public static TurnType currentTurn = TurnType.MUSHROOM;
@@ -100,8 +100,11 @@ public class TurnManager : MonoBehaviour
         {
             if (cityTileCount + mushroomTileCount >= numberOfBuiltTilesForMusic)
             {
+                Debug.Log("MusicTension 1");
                 MusicManager.FadeInChannel(2, 2);
                 MusicManager.FadeOutChannel(1, 2);
+                MusicManager.FadeOutChannel(0, 2);
+                musicManager.GetComponent<MusicManager>().StartLoop();
                 SFXManager.PlayMusicTransition(0);
                 musicTension++;
             }
@@ -109,8 +112,10 @@ public class TurnManager : MonoBehaviour
         {
             if (cityTileCount + mushroomTileCount >= numberOfBuiltTilesForMusic * 2)
             {
+                Debug.Log("MusicTension 2");
                 MusicManager.FadeInChannel(3, 2);
                 MusicManager.FadeOutChannel(2, 2);
+
                 SFXManager.PlayMusicTransition(0);
                 musicTension++;
             }

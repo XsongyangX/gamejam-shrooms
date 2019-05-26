@@ -5,7 +5,7 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager main;
-
+    public bool loopStarted = false;
     public bool isMainLoop = true;
 
     public AudioClip[] clips;
@@ -14,6 +14,7 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
+
         DontDestroyOnLoad(gameObject);
         if (main != null)
         {
@@ -49,11 +50,16 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    void StartLoop()
+    public void StartLoop()
     {
-        for(int i = 1; i<channels.Count; i++)
+        if(!loopStarted)
         {
+            Debug.Log("Loop Started");
+            loopStarted = true;
+            for (int i = 1; i<channels.Count; i++)
+            {
             channels[i].Play();
+            }
         }
     }
 
@@ -91,12 +97,17 @@ public class MusicManager : MonoBehaviour
 
     public static void FadeInChannel(int channelID, float time)
     {
+        Debug.Log("Fade in " + channelID);
         //main.StartCoroutine(main.FadeCoroutineDelay(channelID, 1, time,0));
-        FadeChannel(channelID, 1, time);
+        if(channelID == 3)
+            FadeChannel(channelID, 0.3f, time);
+        else
+            FadeChannel(channelID, 0.5f, time);
     }
 
     public static void FadeOutChannel(int channelID, float time)
     {
+        Debug.Log("Fade out " + channelID);
         FadeChannel(channelID, 0, time);
     }
 

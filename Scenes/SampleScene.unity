@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityPlayer: {fileID: 1973536087}
   gameManager: {fileID: 300826897}
+  musicManager: {fileID: 1260456547}
   numberOfBuiltTilesForMusic: 15
 --- !u!4 &823144238
 Transform:
@@ -768,6 +769,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1260456547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5210871711125285672, guid: 6988a18ccefba994eaf994c1a2fd0f77,
+    type: 3}
+  m_PrefabInstance: {fileID: 468217330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1973536087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1157,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 07f6c0db9ec30b742b1a0f0ae9daf56b, type: 3}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 54d156ca2d87fb040b9ea9fde33b2ed5, type: 3}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: d70c7853ad95c0c42be6b4e6b23b328f, type: 3}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: e9e67df125436754b81cf27bb0e437aa, type: 3}
+    - target: {fileID: 2822092129373658467, guid: 0a29cbfa1f00c0648b1be12265733fbc,
+        type: 3}
+      propertyPath: clipsPowerUp.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: be34df2499a60e8409756795ded2cfed, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a29cbfa1f00c0648b1be12265733fbc, type: 3}
 --- !u!1001 &6179037702975929545

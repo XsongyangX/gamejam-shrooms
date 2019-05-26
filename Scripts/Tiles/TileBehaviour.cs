@@ -116,6 +116,7 @@ public class TileBehaviour : MonoBehaviour
             SpawnSporePowerupVFX();
             UIManager.ShowPowerup("More Action Points !!!", 3);
             Tutorial.main.OnFirstPowerUp();
+            SFXManager.Play(SFXManager.Style.POWER_UP);
             if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM) TurnManager.mushroomActionPointPerTurn += TurnManager.powerupTileWeight;
             else TurnManager.cityActionPointPerTurn += TurnManager.powerupTileWeight;
         }
@@ -136,6 +137,7 @@ public class TileBehaviour : MonoBehaviour
         {
             TurnManager.mushroomTileCount++;
             SpawnSporeVFX();
+            SFXManager.Play(SFXManager.Style.COLONISE_SHROOM);
             cityPlayer.GetComponent<CityPlayer>().listMushrooms.Add(gameObject);
         }
 
@@ -164,7 +166,6 @@ public class TileBehaviour : MonoBehaviour
         // from a mushroom tile
         if (from.type == Type.MUSHROOM || from.type == Type.CORE) {
             Worker.Spawn(mushroomWoorker, from.transform.position, transform.position);
-            SFXManager.Play(SFXManager.Style.COLONISE_SHROOM);
         }
         // from a human tile
         else

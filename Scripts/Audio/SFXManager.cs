@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    public enum Style { SELECT_TILE, COLONISE_SHROOM, COLONISE_HUMAN}
+    public enum Style { SELECT_TILE, COLONISE_SHROOM, COLONISE_HUMAN, POWER_UP}
 
     public AudioClip[] clipsSelect;
     public AudioClip[] clipsColoniseShroom;
     public AudioClip[] clipsColoniseHuman;
+    public AudioClip[] clipsPowerUp;
     public AudioClip transition;
 
     private static SFXManager main;
@@ -28,6 +29,8 @@ public class SFXManager : MonoBehaviour
                 return clipsColoniseShroom;
             case Style.COLONISE_HUMAN:
                 return clipsColoniseHuman;
+            case Style.POWER_UP:
+                return clipsPowerUp;
             default:
                 return new AudioClip[] { };
         }
@@ -40,6 +43,7 @@ public class SFXManager : MonoBehaviour
         AudioClip[] clips = main.GetClipsOfStyle(style);
         int clipID = Random.Range(0, clips.Length);
         s.clip = clips[clipID];
+        s.volume = 0.8f;
         s.Play();
         s.spatialize = false;
         Destroy(s.gameObject, s.clip.length + 1);
@@ -50,6 +54,7 @@ public class SFXManager : MonoBehaviour
         AudioSource s = new GameObject("Music - Transition", typeof(AudioSource)).GetComponent<AudioSource>();
         s.gameObject.hideFlags = HideFlags.HideAndDontSave;
         s.clip = transition;
+        s.volume = 0.5f;
         s.Play();
         s.spatialize = false;
         Destroy(s.gameObject, s.clip.length + 1);
