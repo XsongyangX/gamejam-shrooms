@@ -9,6 +9,9 @@ public class ListCreation : MonoBehaviour
 
     public GameObject pointPrefab;
     public GameObject gameManager;
+
+    public GameObject cityPlayer;
+
     public List<GameObject> listePoint;
     public List<GameObject> listeVoisinTemp;
 
@@ -41,6 +44,7 @@ public class ListCreation : MonoBehaviour
 
             GameObject aPoint = Instantiate(pointPrefab, new Vector3(row * distanceX, height * distanceY, 0),Quaternion.identity);
             aPoint.GetComponent<PointController>().CreatePoint(i,gameManager.GetComponent<GameManager>());
+            aPoint.GetComponent<TileBehaviour>().cityPlayer = cityPlayer;
             listePoint.Add(aPoint);
 
             TileBehaviour tb = aPoint.GetComponent<TileBehaviour>();
@@ -50,9 +54,9 @@ public class ListCreation : MonoBehaviour
                 if (startPoints[k].index == i)
                 {
                     if (startPoints[k].type == TileBehaviour.Type.CITY)
-                        CityPlayer.AddTerritory(aPoint.GetComponent<PointController>());
+                        cityPlayer.GetComponent<CityPlayer>().AddTerritory(aPoint.GetComponent<PointController>());
                     if (startPoints[k].type == TileBehaviour.Type.MUSHROOM)
-                        DisconnectionAlgorithm.listMushrooms.Add(aPoint);
+                        cityPlayer.GetComponent<CityPlayer>().listMushrooms.Add(aPoint);
                     tb.SetType(startPoints[k].type);
                 }
             }

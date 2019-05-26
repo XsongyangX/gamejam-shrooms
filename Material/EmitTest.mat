@@ -64,9 +64,9 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmitFresnelSize: 5
+    - _EmitFresnelSize: 2.51
     - _EmitFresnelWeight: 1
-    - _EmitIntensity: 0.74
+    - _EmitIntensity: 2.2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1

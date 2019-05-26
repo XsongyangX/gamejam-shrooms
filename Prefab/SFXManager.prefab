@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2822092129373658466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2822092129373658468}
+  - component: {fileID: 2822092129373658467}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2822092129373658468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2822092129373658466}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2822092129373658467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2822092129373658466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126c40fe109106a4ba20cdc99144a0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipsSelect:
+  - {fileID: 8300000, guid: e87a29d6b75c244459b077b8d7ad58b6, type: 3}
+  - {fileID: 8300000, guid: fab9885a6e6e8d745beb916aad0bbda7, type: 3}
+  - {fileID: 8300000, guid: 94f8adefd68764446816a0e838346e85, type: 3}
+  - {fileID: 8300000, guid: 159acf4160b277645a9658e5a7cf1c70, type: 3}
+  clipsColoniseShroom:
+  - {fileID: 8300000, guid: 11aa54137d70b3b4bbaf6ca248748de9, type: 3}
+  - {fileID: 8300000, guid: 4f73545c41faa4248813f0a5ac271471, type: 3}
+  - {fileID: 8300000, guid: c11f94d8f57e0534c91244141d94f673, type: 3}
+  clipsColoniseHuman:
+  - {fileID: 8300000, guid: 05876ff9391c2f8479f32db1291a9bd9, type: 3}
+  - {fileID: 8300000, guid: ee6735e6791a8c64aa33629a1632aec8, type: 3}
+  - {fileID: 8300000, guid: 8ae14fc8defd77b41b9a4cd161318239, type: 3}
+  transition: {fileID: 8300000, guid: b5bde9a098b4e5d4caf8f4542f63b13f, type: 3}

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     // the active selected tile
     public PointController selectedTile; // is null if nothing is selected
 
+    public GameObject cityPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +20,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
-    }
-
-    void Awake()
-    {
-        CityPlayer.gameManager = this;
     }
 
     // Perform a mouse selection
@@ -63,10 +60,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Expanding enemy");
         chosenTile.Colonise(expandingFrom);
-        CityPlayer.AddTerritory(chosenTile.GetComponent<PointController>());
+        cityPlayer.GetComponent<CityPlayer>().AddTerritory(chosenTile.GetComponent<PointController>());
         //algo
-        List<GameObject> removeList = DisconnectionAlgorithm.Disconnect();
-        foreach(GameObject aTile in removeList)
+        
+        foreach(GameObject aTile in cityPlayer.GetComponent<CityPlayer>().Disconnect())
         {
             Debug.Log("A removal");
             aTile.GetComponent<TileBehaviour>().SetType(TileBehaviour.Type.EMPTY);

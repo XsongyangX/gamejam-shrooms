@@ -6,12 +6,30 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager main;
 
+    public bool isMainLoop = true;
+
     public AudioClip[] clips;
 
     private List<AudioSource> channels = new List<AudioSource>();
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        if (main != null)
+        {
+            if (main.clips[0] != clips[0])
+            {
+                for (int i = 0; i < main.channels.Count; i++)
+                {
+                    main.CreateFade(i, 0, 2, 0);
+                }
+                Destroy(main.gameObject, 5);
+            } else
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
         main = this;
     }
     
@@ -21,10 +39,14 @@ public class MusicManager : MonoBehaviour
 
         FadeInChannel(0, 2); // Play the first channel at the beginning of the game
         channels[0].Play();
-        FadeChannelDelay(0, 0, 2, channels[0].clip.length - 2);
-        FadeChannelDelay(1, 1, 2, channels[0].clip.length - 2);
-        Invoke("StartLoop", channels[0].clip.length - 2);
-        //FadeChannelDelay(0, 1, 5, 5);
+        if (isMainLoop)
+        {
+            FadeChannelDelay(0, 0, 2, channels[0].clip.length - 2);
+            FadeChannelDelay(1, 1, 2, channels[0].clip.length - 2);
+            Invoke("StartLoop", channels[0].clip.length - 2);
+            SFXManager.PlayMusicTransition(channels[0].clip.length - 2);
+            //FadeChannelDelay(0, 1, 5, 5);
+        }
     }
 
     void StartLoop()

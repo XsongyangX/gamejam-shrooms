@@ -123,6 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   point: {fileID: 0}
   type: 0
+  mushroomWoorker: {fileID: 5173485039208060550, guid: bdc2fc78af85bc64b9546b521b19d861,
+    type: 3}
   visualEmpty: {fileID: 1273716934628939181, guid: 222200da912ab9d4fb62fa85d55583ac,
     type: 3}
   visualMushroom: {fileID: 5644685989998764645, guid: 7adde5507f9423b49b3987e3de8b9534,
@@ -137,3 +139,4 @@ MonoBehaviour:
     type: 3}
   vfxSporePowerup: {fileID: 1100382318242954644, guid: 1d2863e148578db44b0e22929b92b14f,
     type: 3}
+  cityPlayer: {fileID: 0}

@@ -39,16 +39,16 @@ public class DisconnectionAlgorithm
         // gather all unvisited nodes and set all nodes back to unvisited
         List<GameObject> disconnected = new List<GameObject>();
 
-        foreach (GameObject node in listMushrooms)
-        {
-            PointController pc = node.GetComponent<PointController>();
-            if (pc.visited == false)
-            {
-                disconnected.Add(node);
-            }
-            else
-                pc.visited = false;
-        }
+        //foreach (GameObject node in listMushrooms)
+        //{
+        //    PointController pc = node.GetComponent<PointController>();
+        //    if (pc.visited == false)
+        //    {
+        //        disconnected.Add(node);
+        //    }
+        //    else
+        //        pc.visited = false;
+        //}
 
 
         Debug.Log("Disconnect end");

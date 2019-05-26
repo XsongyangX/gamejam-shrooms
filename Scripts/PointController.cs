@@ -10,7 +10,7 @@ public class PointController : MonoBehaviour
     public int positionN;
     
     bool isSelected, isHighlighted;
-
+    public bool isSkyscraper; 
     // cutting algorithm
     public bool visited;
 
@@ -24,6 +24,7 @@ public class PointController : MonoBehaviour
     void Start()
     {
         isHighlighted = false;
+        isSkyscraper = false;
     }
 
     public void AddVoisin(GameObject aVoisin)
@@ -67,6 +68,7 @@ public class PointController : MonoBehaviour
         {
             Tutorial.main.OnClickCore();
         }
+        SFXManager.Play(SFXManager.Style.SELECT_TILE);
     }
 
     public void Deselect()

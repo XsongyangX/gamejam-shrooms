@@ -137,7 +137,7 @@ public class Tutorial : MonoBehaviour
         DialogueBox.Display("Power Ups give you more Action Points to spend ! Don't let the mean humans get more than you !", "Close", CloseTutorial);
     }
 
-    private void CloseTutorial()
+    public void CloseTutorial()
     {
         CameraController.ReleaseControl();
         DialogueBox.Hide();

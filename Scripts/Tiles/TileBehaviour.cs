@@ -12,6 +12,7 @@ public class TileBehaviour : MonoBehaviour
 
     public static TileBehaviour core;
 
+    public Worker mushroomWoorker;
     public GameObject visualEmpty;
     public GameObject visualMushroom;
     public GameObject visualCity;
@@ -19,6 +20,8 @@ public class TileBehaviour : MonoBehaviour
     public GameObject visualPowerup;
     public GameObject vfxSpore;
     public GameObject vfxSporePowerup;
+
+    public GameObject cityPlayer;
 
     private GameObject currentVisual;
 
@@ -77,6 +80,17 @@ public class TileBehaviour : MonoBehaviour
                 newVisual = visualEmpty;
                 break;
         }
+        RefreshVisual(newVisual);
+        /*
+        currentVisual = Instantiate(newVisual);
+        currentVisual.transform.SetParent(transform);
+        currentVisual.transform.position = transform.position;
+        */
+    }
+
+    public void RefreshVisual(GameObject newVisual)
+    {
+        if (currentVisual != null) Destroy(currentVisual);
         currentVisual = Instantiate(newVisual);
         currentVisual.transform.SetParent(transform);
         currentVisual.transform.position = transform.position;
@@ -88,13 +102,13 @@ public class TileBehaviour : MonoBehaviour
         {
 
             TurnManager.cityTileCount--;
-            CityPlayer.RemoveTerritory(point);
+            cityPlayer.GetComponent<CityPlayer>().RemoveTerritory(point);
         }
         else if (type == Type.MUSHROOM || type == Type.CORE)
         {
 
             TurnManager.mushroomTileCount--;
-            DisconnectionAlgorithm.listMushrooms.Remove(gameObject);
+            cityPlayer.GetComponent<CityPlayer>().listMushrooms.Remove(gameObject);
 
         }
         else if (type == Type.POWERUP)
@@ -122,7 +136,7 @@ public class TileBehaviour : MonoBehaviour
         {
             TurnManager.mushroomTileCount++;
             SpawnSporeVFX();
-            DisconnectionAlgorithm.listMushrooms.Add(gameObject);
+            cityPlayer.GetComponent<CityPlayer>().listMushrooms.Add(gameObject);
         }
 
         // Update Visuals here
@@ -146,6 +160,13 @@ public class TileBehaviour : MonoBehaviour
 
         TurnManager.SpendActionPoints(actionCost);
         SetType(from.type);
+
+        Worker.Spawn(mushroomWoorker, from.transform.position, transform.position);
+
+        if (from.type == Type.MUSHROOM || from.type == Type.CORE)
+            SFXManager.Play(SFXManager.Style.COLONISE_SHROOM);
+        else
+            SFXManager.Play(SFXManager.Style.COLONISE_HUMAN);
 
     }
 

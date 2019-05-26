@@ -74,16 +74,16 @@ public class CameraController : MonoBehaviour
     {
         // left
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-            return new Vector3(1, 0, 0);
+            return new Vector3(-1, 0, 0);
         // right
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            return new Vector3(-1, 0, 0);
+            return new Vector3(1, 0, 0);
         // up
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            return new Vector3(0, -1, 0);
+            return new Vector3(0, 1, 0);
         // down
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            return new Vector3(0, 1, 0);
+            return new Vector3(0, -1, 0);
         else
             return Vector3.zero;
     }
@@ -113,18 +113,19 @@ public class CameraController : MonoBehaviour
             {
                 transform.position -= Vector3.up * Time.deltaTime * moveSpeed;
             }
-            else if (mousePosition.y >= Screen.height - distToScreenEdge && mousePosition.x < Screen.width * 0.25f || mousePosition.x > Screen.width * 0.75f)
+            else if (mousePosition.y >= Screen.height - distToScreenEdge && (mousePosition.x < Screen.width * 0.25f || mousePosition.x > Screen.width * 0.75f))
             {
                 transform.position += Vector3.up * Time.deltaTime * moveSpeed;
             }
         }
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, 5, ListCreation.main.tileAmount / ListCreation.main.tilesPerRow * ListCreation.main.distanceX - 5);
-        pos.y = Mathf.Clamp(pos.y, Mathf.Lerp(-10, -30, zoomLevel), ListCreation.main.tilesPerRow * ListCreation.main.distanceY - Mathf.Lerp(10, 20, zoomLevel));
+        pos.y = Mathf.Clamp(pos.y, Mathf.Lerp(-10, -30, zoomLevel), ListCreation.main.tilesPerRow * ListCreation.main.distanceY - Mathf.Lerp(20, 40, zoomLevel));
         transform.position = pos;
     }
     private void MouseZoom()
     {
+        if (isControlledByAI) return;
         float scroll = Input.mouseScrollDelta.y;
         zoomLevel -= scroll * Time.deltaTime * 3;
         zoomLevel = Mathf.Clamp01(zoomLevel);
@@ -148,11 +149,15 @@ public class CameraController : MonoBehaviour
     {
         if (!isControlledByAI) return;
         Vector3 toTarget = targetPosition - transform.position;
+        toTarget.z = 0;
         if (toTarget.magnitude <= moveSpeedAI * Time.deltaTime * 2)
         {
+            targetPosition.z = transform.position.z;
             transform.position = targetPosition;
         } else
         {
+            toTarget = toTarget.normalized;
+            toTarget.z = 0;
             transform.position += toTarget.normalized * moveSpeedAI * Time.deltaTime;
         }
     }

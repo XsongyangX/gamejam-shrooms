@@ -142,4 +142,10 @@ public class DialogueBox : MonoBehaviour
     {
         text.text = boxDisplay;
     }
+
+    public void PressedSkip()
+    {
+        Tutorial.skipAll = true;
+        Tutorial.main.CloseTutorial();
+    }
 }

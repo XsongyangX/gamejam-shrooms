@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager main;
 
+    public GameObject turnManager;
+
     public Text turnLabel;
     public Text powerupLabel;
     public Text actionPointLabel;
@@ -71,7 +73,14 @@ public class UIManager : MonoBehaviour
     {
         if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM)
         {
-            TurnManager.StartNewTurn();
+            turnManager.GetComponent<TurnManager>().StartNewTurn();
         }
+    }
+
+    public void PressRestart()
+    {
+        TurnManager.cityActionPointsAmount = 0;
+        TurnManager.mushroomActionPointsAmount = 5;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
 }

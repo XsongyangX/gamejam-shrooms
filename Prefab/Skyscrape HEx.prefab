@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.3537736, b: 0.66091996, a: 1}
-  intensity: 1
-  radius: 6
+  intensity: 2
+  radius: 8
 --- !u!1001 &2600223559685890572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 4861e72ec33fefc4c9a7d2d4350d0e5a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4861e72ec33fefc4c9a7d2d4350d0e5a,
         type: 3}
@@ -182,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 1273716934628939181, guid: 222200da912ab9d4fb62fa85d55583ac,
         type: 3}
       propertyPath: m_Name
-      value: City Hex Variant
+      value: City Hex Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 1273716934628939180, guid: 222200da912ab9d4fb62fa85d55583ac,
         type: 3}
@@ -279,11 +279,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: skyscrape
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a72d6bd54c4eebc4d834cc19f3f5135e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a72d6bd54c4eebc4d834cc19f3f5135e,
         type: 3}

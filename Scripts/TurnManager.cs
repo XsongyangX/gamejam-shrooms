@@ -6,6 +6,10 @@ public class TurnManager : MonoBehaviour
 {
     public enum TurnType { CITY, MUSHROOM};
 
+    public GameObject cityPlayer;
+
+    public int numberOfBuiltTilesForMusic = 10;
+
     public static TurnType currentTurn = TurnType.MUSHROOM;
 
     public static int mushroomActionPointsAmount = 5;
@@ -38,7 +42,7 @@ public class TurnManager : MonoBehaviour
     }
 
 
-    public static void StartNewTurn()
+    public void StartNewTurn()
     {
         if (currentTurn == TurnType.MUSHROOM)
         {
@@ -46,7 +50,7 @@ public class TurnManager : MonoBehaviour
             currentTurn = TurnType.CITY;
             cityActionPointsAmount += cityActionPointPerTurn;
             Tutorial.main.OnFirstCityTurn();
-            CityPlayer.Play();
+            cityPlayer.GetComponent<CityPlayer>().Play();
         }
         else
         {
@@ -58,17 +62,55 @@ public class TurnManager : MonoBehaviour
         UIManager.UpdateTurnLabel();
     }
 
-    private void Update()
-    {
-        CheckForNextTurn();
-    }
-
-    private void CheckForNextTurn()
+    public void Update()
     {
         if (!CurrentTeamHasEnoughActionPoints(1)) // Or skip turn
         {
             StartNewTurn();
+
             // Remove Highlight
+            CheckForMusic();
+        }
+        CheckForEndGame();
+    }
+
+    private void CheckForEndGame()
+    {
+        if (cityTileCount == 0)
+        {
+            cityActionPointsAmount = 0;
+            mushroomActionPointsAmount = 5;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("WinScreen");
+        } else if (mushroomTileCount == 0 || TileBehaviour.core == null)
+        {
+            cityActionPointsAmount = 0;
+            mushroomActionPointsAmount = 5;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("DefeatScreen");
+        }
+    }
+
+    private int musicTension = 0;
+
+    private void CheckForMusic()
+    {
+        if (musicTension == 0)
+        {
+            if (cityTileCount + mushroomTileCount >= numberOfBuiltTilesForMusic)
+            {
+                MusicManager.FadeInChannel(2, 2);
+                MusicManager.FadeOutChannel(1, 2);
+                SFXManager.PlayMusicTransition(0);
+                musicTension++;
+            }
+        } else if (musicTension == 1)
+        {
+            if (cityTileCount + mushroomTileCount >= numberOfBuiltTilesForMusic * 2)
+            {
+                MusicManager.FadeInChannel(3, 2);
+                MusicManager.FadeOutChannel(2, 2);
+                SFXManager.PlayMusicTransition(0);
+                musicTension++;
+            }
         }
     }
 
