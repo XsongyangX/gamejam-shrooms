@@ -74,6 +74,7 @@ public class LitObject : MonoBehaviour
         List<LightPoint> list = LightPoint.all;
         
         list.Sort(Comparer);
+
         for (int i = 0; i < 8; i++)
         {
             if (i >= list.Count)
@@ -89,6 +90,7 @@ public class LitObject : MonoBehaviour
 
     public int Comparer(LightPoint a, LightPoint b)
     {
+        if (a == null || b == null) return 0;
         if (Vector3.Distance(a.GetPosition(), transform.position) > Vector3.Distance(b.GetPosition(), transform.position))
         {
             return 1;

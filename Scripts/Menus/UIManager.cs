@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager main;
 
     public Text turnLabel;
+    public Text powerupLabel;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         UpdateTurnLabel();
+        ShowPowerup("", 0);
     }
 
     // Update is called once per frame
@@ -38,5 +40,16 @@ public class UIManager : MonoBehaviour
             main.turnLabel.text = "Cities' turn !";
             main.turnLabel.color = Color.red;
         }
+    }
+
+    public static void ShowPowerup(string effect, float duration)
+    {
+        main.powerupLabel.text = "Power Up: " + effect;
+        main.Invoke("HidePowerupText", duration);
+    }
+
+    private void HidePowerupText()
+    {
+        powerupLabel.text = "";
     }
 }

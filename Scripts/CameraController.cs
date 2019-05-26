@@ -16,17 +16,25 @@ public class CameraController : MonoBehaviour
     // end move time
     float moveEndTime;
 
+    public float moveSpeed = 10;
+    private float zoomLevel = 0;
+    public Vector2 zoomLimits;
+    private bool dragScreen = false;
+    private Vector2 previousMousePos;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        previousMousePos = Input.mousePosition;
     }
 
     // Update is called once per frame
     void Update()
     {
         move();
+        MouseMovement();
+        MouseZoom();
+        previousMousePos = Input.mousePosition;
     }
 
     // Move the camera
@@ -70,5 +78,51 @@ public class CameraController : MonoBehaviour
             return new Vector3(0, 1, 0);
         else
             return Vector3.zero;
+    }
+
+    private void MouseMovement()
+    {
+        float distToScreenEdge = 0.1f * Screen.height;
+        Vector2 mousePosition = Input.mousePosition;
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            Vector2 delta = mousePosition - previousMousePos;
+
+            transform.position -= new Vector3(delta.x, delta.y, 0) * 0.07f;// * Time.deltaTime;
+        }
+        else
+        {
+            if (mousePosition.x <= distToScreenEdge)
+            {
+                transform.position -= Vector3.right * Time.deltaTime * moveSpeed;
+            }
+            else if (mousePosition.x >= Screen.width - distToScreenEdge)
+            {
+                transform.position += Vector3.right * Time.deltaTime * moveSpeed;
+            }
+            if (mousePosition.y <= distToScreenEdge)
+            {
+                transform.position -= Vector3.up * Time.deltaTime * moveSpeed;
+            }
+            else if (mousePosition.y >= Screen.height - distToScreenEdge)
+            {
+                transform.position += Vector3.up * Time.deltaTime * moveSpeed;
+            }
+        }
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, 5, ListCreation.main.tileAmount / ListCreation.main.tilesPerRow * ListCreation.main.distanceX - 5);
+        pos.y = Mathf.Clamp(pos.y, Mathf.Lerp(-10, -30, zoomLevel), ListCreation.main.tilesPerRow * ListCreation.main.distanceY - Mathf.Lerp(10, 20, zoomLevel));
+        transform.position = pos;
+    }
+    private void MouseZoom()
+    {
+        float scroll = Input.mouseScrollDelta.y;
+        zoomLevel -= scroll * Time.deltaTime * 3;
+        zoomLevel = Mathf.Clamp01(zoomLevel);
+        float zoom = Mathf.Lerp(zoomLimits.x, zoomLimits.y, zoomLevel);
+        Vector3 pos = transform.position;
+        pos.z = zoom;
+        pos.y += scroll * 0.5f;
+        transform.position = pos;
     }
 }

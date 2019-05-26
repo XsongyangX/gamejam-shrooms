@@ -41,15 +41,17 @@ public class PointController : MonoBehaviour
     // mouse click
     void OnMouseDown()
     {
-        if(isHighlighted)
+        if(TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM)
         {
-            gameManager.ExpandMushroom(this);
-        }
-        else if(GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM)
-        {
-            isSelected = true;
-            Debug.Log("Mooshroom");
-            gameManager.TileSelect(this);
+            if (isHighlighted)
+            {
+                gameManager.ExpandMushroom(this);
+            }
+            else if(GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM)
+            {
+                isSelected = true;
+                gameManager.TileSelect(this);
+            }
         }
 
     }

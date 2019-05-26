@@ -19,7 +19,22 @@ public class MusicManager : MonoBehaviour
     {
         SetupMusicChannels();
 
-        FadeInChannel(0, 5); // Play the first channel at the beginning of the game
+        FadeInChannel(0, 2); // Play the first channel at the beginning of the game
+        FadeChannelDelay(0, 0, 5, 5);
+        //FadeChannelDelay(0, 1, 5, 5);
+    }
+
+    private void Update()
+    {
+        UpdateInstructions();
+    }
+
+    private void UpdateInstructions()
+    {
+        for (int i = 0; i < fadeInstructions.Count; i++)
+        {
+            ApplyFade(i);
+        }
     }
 
     private void SetupMusicChannels()
@@ -43,32 +58,86 @@ public class MusicManager : MonoBehaviour
 
     public static void FadeInChannel(int channelID, float time)
     {
-        main.StartCoroutine(main.FadeCoroutine(channelID, 1, time));
+        //main.StartCoroutine(main.FadeCoroutineDelay(channelID, 1, time,0));
+        FadeChannel(channelID, 1, time);
     }
 
     public static void FadeOutChannel(int channelID, float time)
     {
-        main.StartCoroutine(main.FadeCoroutine(channelID, 0, time));
+        FadeChannel(channelID, 0, time);
     }
 
     public static void FadeChannel(int channelID, float volume, float time)
     {
-        main.StartCoroutine(main.FadeCoroutine(channelID, volume, time));
+        //main.StartCoroutine(main.FadeCoroutineDelay(channelID, volume, time,0));
+        FadeChannelDelay(channelID, volume, time, 0);
     }
 
-    IEnumerator FadeCoroutine(int channelID, float targetVolume, float time)
+    public static void FadeChannelDelay(int channelID, float volume, float time, float delay)
+    {
+        main.CreateFade(channelID, volume, time, delay);
+    }
+
+    private struct FadeInstruction
+    {
+        public int channelID;
+        public float startVolume;
+        public float targetVolume;
+        public float timer;
+        public float duration;
+    }
+
+    private List<FadeInstruction> fadeInstructions = new List<FadeInstruction>();
+
+    private void CreateFade(int channelID, float targetVolume, float duration, float delay)
+    {
+        FadeInstruction fade = new FadeInstruction();
+        fade.channelID = channelID;
+        fade.startVolume = channels[channelID].volume;
+        fade.targetVolume = targetVolume;
+        fade.duration = duration;
+        fade.timer = -delay;
+        fadeInstructions.Add(fade);
+    }
+
+    private void ApplyFade(int id)
+    {
+        FadeInstruction fade = fadeInstructions[id];
+        AudioSource source = channels[fade.channelID];
+        fade.timer += Time.deltaTime;
+        if (fade.timer > 0)
+        {
+            float t = fade.timer / fade.duration;
+            source.volume = Mathf.Lerp(fade.startVolume, fade.targetVolume, t);
+            if (fade.timer > fade.duration)
+            {
+                fadeInstructions.RemoveAt(id);
+                return;
+            }
+        } else
+        {
+            fade.startVolume = source.volume;
+        }
+        fadeInstructions[id] = fade;
+    }
+    /*
+    IEnumerator FadeCoroutineDelay(int channelID, float targetVolume, float time, float delay)
     {
         AudioSource source = channels[channelID];
         float startVolume = source.volume;
-        float timer = 0;
+        float timer = -delay;
 
         while (timer < time)
         {
-            float t = timer / time;
-            float volume = Mathf.Lerp(startVolume, targetVolume, t);
-            source.volume = volume;
+            if (timer > 0)
+            {
+                float t = timer / time;
+                float volume = Mathf.Lerp(startVolume, targetVolume, t);
+                source.volume = volume;
+            }
             timer += Time.deltaTime;
             yield return new WaitForSeconds(0);
         }
-    }
+        Debug.Log("Fade End");
+    }*/
 }

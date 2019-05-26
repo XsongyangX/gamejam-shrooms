@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    void Awake()
+    {
+        CityPlayer.gameManager = this;
+    }
+
     // Perform a mouse selection
     public void TileSelect(PointController clickedTile)
     {
@@ -33,23 +38,32 @@ public class GameManager : MonoBehaviour
         {
             selectedTile = null;
         }    
-        selectedTile = clickedTile;
-        selectedTile.Select();
-        if (TurnManager.mushroomActionPoints != 0)
+        else
         {
-            selectedTile.HighlightVoisin();
+            selectedTile = clickedTile;
+            selectedTile.Select();
+        
+            if (TurnManager.mushroomActionPointsAmount != 0)
+            {
+                selectedTile.HighlightVoisin();
+            }
         }
     }
 
     public void ExpandMushroom(PointController clickedTile)
     {
-        Debug.Log("Test");
-        //clickedTile.GetComponent<TileBehaviour>().type = TileBehaviour.Type.MUSHROOM;
         selectedTile.NormalVoisin();
         selectedTile.Deselect();
         clickedTile.NormalVoisin();
         clickedTile.Deselect();
         clickedTile.gameObject.GetComponent<TileBehaviour>().Colonise(selectedTile.gameObject.GetComponent<TileBehaviour>());
+    }
+
+    public void ExpandCity(TileBehaviour chosenTile, TileBehaviour expandingFrom)
+    {
+        Debug.Log("Expanding enemy");
+        chosenTile.Colonise(expandingFrom);
+        CityPlayer.AddTerritory(chosenTile.GetComponent<PointController>());
     }
 
     // End game transition

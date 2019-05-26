@@ -8,8 +8,8 @@ public class TurnManager : MonoBehaviour
 
     public static TurnType currentTurn = TurnType.MUSHROOM;
 
-    public static int mushroomActionPoints = 5;
-    public static int cityActionPoints = 5;
+    public static int mushroomActionPointsAmount = 0;
+    public static int cityActionPointsAmount = 0;
 
     public static float mushroomProgress = 3;
     public static float cityProgress = 2;
@@ -17,25 +17,34 @@ public class TurnManager : MonoBehaviour
     public const float cityTileWeight = 0.1f;
     public const float mushroomTileWeight = 0.2f;
 
+    public static int mushroomActionPointPerTurn = 5;
+    public static int cityActionPointPerTurn = 5;
+
+
+    public const int powerupTileWeight = 2;
+
+
+
+
     public static int mushroomTileCount = 0;
     public static int cityTileCount = 0;
 
     public static int GetCurrentTeamActionPoints()
     {
-        if (currentTurn == TurnType.CITY) return cityActionPoints;
-        else return mushroomActionPoints;
+        if (currentTurn == TurnType.CITY) return cityActionPointsAmount;
+        else return mushroomActionPointsAmount;
     }
 
     public static bool CurrentTeamHasEnoughActionPoints(int cost)
     {
-        if (currentTurn == TurnType.MUSHROOM) return mushroomActionPoints >= cost;
-        else return cityActionPoints >= cost;
+        if (currentTurn == TurnType.MUSHROOM) return mushroomActionPointsAmount >= cost;
+        else return cityActionPointsAmount >= cost;
     }
 
     public static void SpendActionPoints(int amount)
     {
-        if (currentTurn == TurnType.MUSHROOM) mushroomActionPoints -= amount;
-        else cityActionPoints -= amount;
+        if (currentTurn == TurnType.MUSHROOM) mushroomActionPointsAmount -= amount;
+        else cityActionPointsAmount -= amount;
     }
 
     public static int GetPointsFromProgress(float progress)
@@ -47,13 +56,17 @@ public class TurnManager : MonoBehaviour
     {
         if (currentTurn == TurnType.MUSHROOM)
         {
+            Debug.Log("City Turn");
             currentTurn = TurnType.CITY;
-            mushroomActionPoints += GetPointsFromProgress(mushroomProgress);
+            mushroomActionPointsAmount += mushroomActionPointPerTurn;
+
+            CityPlayer.Decide();
         }
         else
         {
+            Debug.Log("Mushroom Turn");
             currentTurn = TurnType.MUSHROOM;
-            cityActionPoints += GetPointsFromProgress(cityProgress);
+            cityActionPointsAmount += cityActionPointPerTurn;
         }
         UIManager.UpdateTurnLabel();
     }

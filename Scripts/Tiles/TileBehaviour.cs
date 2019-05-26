@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TileBehaviour : MonoBehaviour
 {
-    public enum Type { EMPTY, CITY, MUSHROOM, CORE};
+    public enum Type { EMPTY, CITY, MUSHROOM, CORE, POWERUP};
 
     public PointController point;
 
@@ -14,6 +14,9 @@ public class TileBehaviour : MonoBehaviour
     public GameObject visualMushroom;
     public GameObject visualCity;
     public GameObject visualCore;
+    public GameObject visualPowerup;
+    public GameObject vfxSpore;
+    public GameObject vfxSporePowerup;
 
     private GameObject currentVisual;
 
@@ -24,6 +27,8 @@ public class TileBehaviour : MonoBehaviour
             switch (type)
             {
                 case Type.EMPTY:
+                    return 1;
+                case Type.POWERUP:
                     return 1;
                 case Type.CITY:
                     return 3;
@@ -39,6 +44,7 @@ public class TileBehaviour : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Tile Behavir");
         point = GetComponent<PointController>();
 
         RefreshVisual();
@@ -63,6 +69,9 @@ public class TileBehaviour : MonoBehaviour
             case Type.CORE:
                 newVisual = visualMushroom;
                 break;
+            case Type.POWERUP:
+                newVisual = visualPowerup;
+                break;
             default:
                 newVisual = visualEmpty;
                 break;
@@ -78,11 +87,19 @@ public class TileBehaviour : MonoBehaviour
         {
             TurnManager.cityProgress -= TurnManager.cityTileWeight;
             TurnManager.cityTileCount--;
+            //CityPlayer.RemoveTerritory(point);
         }
         else if (type == Type.MUSHROOM || type == Type.CORE)
         {
             TurnManager.mushroomProgress -= TurnManager.mushroomTileWeight;
             TurnManager.mushroomTileCount--;
+        }
+        else if (type == Type.POWERUP)
+        {
+            SpawnSporePowerupVFX();
+            UIManager.ShowPowerup("More Action Points !!!", 3);
+            if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM) TurnManager.mushroomActionPointPerTurn += TurnManager.powerupTileWeight;
+            else TurnManager.cityActionPointPerTurn += TurnManager.powerupTileWeight;
         }
 
         type = newType;
@@ -91,11 +108,13 @@ public class TileBehaviour : MonoBehaviour
         {
             TurnManager.cityProgress += TurnManager.cityTileWeight;
             TurnManager.cityTileCount++;
+            //CityPlayer.AddTerritory(point);
         }
         else if (newType == Type.MUSHROOM || type == Type.CORE)
         {
             TurnManager.mushroomProgress += TurnManager.mushroomTileWeight;
             TurnManager.mushroomTileCount++;
+            SpawnSporeVFX();
         }
 
         // Update Visuals here
@@ -119,6 +138,7 @@ public class TileBehaviour : MonoBehaviour
 
         TurnManager.SpendActionPoints(actionCost);
         SetType(from.type);
+
     }
 
     public void Highlight(Color color)
@@ -137,5 +157,24 @@ public class TileBehaviour : MonoBehaviour
         {
             i.RemoveHighlight();
         }
+    }
+
+    private void SpawnVFX(GameObject vfx)
+    {
+        GameObject obj = Instantiate(vfx);
+        obj.transform.SetParent(transform);
+        obj.transform.localPosition = Vector3.zero;
+        //obj.transform.localScale = Vector3.one;
+        obj.transform.localRotation = Quaternion.identity;
+    }
+
+    public void SpawnSporeVFX()
+    {
+        SpawnVFX(vfxSpore);
+    }
+
+    public void SpawnSporePowerupVFX()
+    {
+        SpawnVFX(vfxSporePowerup);
     }
 }

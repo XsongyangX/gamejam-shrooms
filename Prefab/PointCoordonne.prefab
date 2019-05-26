@@ -108,6 +108,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   ListeVoisin: []
   positionN: 0
+  visited: 0
 --- !u!114 &993236729316385724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,4 +129,11 @@ MonoBehaviour:
     type: 3}
   visualCity: {fileID: 4247890190960847978, guid: 45188e998bdcb794e87ef23c6a9769fa,
     type: 3}
-  visualCore: {fileID: 0}
+  visualCore: {fileID: 5644685989998764645, guid: 7adde5507f9423b49b3987e3de8b9534,
+    type: 3}
+  visualPowerup: {fileID: 5733979868323200293, guid: 6ef0a17f075e34c42adfef7cd316aa85,
+    type: 3}
+  vfxSpore: {fileID: 4700771837205087123, guid: 95c2b42c1d08e6e44affc9afa2bf6261,
+    type: 3}
+  vfxSporePowerup: {fileID: 1100382318242954644, guid: 1d2863e148578db44b0e22929b92b14f,
+    type: 3}
