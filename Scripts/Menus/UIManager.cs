@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 
     public Text turnLabel;
     public Text powerupLabel;
+    public Text actionPointLabel;
+    public Button skipButton;
 
     private void Awake()
     {
@@ -20,19 +22,21 @@ public class UIManager : MonoBehaviour
     {
         UpdateTurnLabel();
         ShowPowerup("", 0);
+        skipButton.onClick.AddListener(PressSkipTurn);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateSkipButton();
+        UpdateActionPointLabel();
     }
 
     public static void UpdateTurnLabel()
     {
         if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM)
         {
-            main.turnLabel.text = "You're turn !";
+            main.turnLabel.text = "Your turn !";
             main.turnLabel.color = Color.cyan;
         }
         else
@@ -40,6 +44,11 @@ public class UIManager : MonoBehaviour
             main.turnLabel.text = "Cities' turn !";
             main.turnLabel.color = Color.red;
         }
+    }
+
+    private void UpdateActionPointLabel()
+    {
+        actionPointLabel.text = "Actions remaining: " + TurnManager.GetCurrentTeamActionPoints();
     }
 
     public static void ShowPowerup(string effect, float duration)
@@ -51,5 +60,18 @@ public class UIManager : MonoBehaviour
     private void HidePowerupText()
     {
         powerupLabel.text = "";
+    }
+
+    private void UpdateSkipButton()
+    {
+        skipButton.interactable = TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM;
+    }
+
+    public void PressSkipTurn()
+    {
+        if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM)
+        {
+            TurnManager.StartNewTurn();
+        }
     }
 }

@@ -20,8 +20,19 @@ public class MusicManager : MonoBehaviour
         SetupMusicChannels();
 
         FadeInChannel(0, 2); // Play the first channel at the beginning of the game
-        FadeChannelDelay(0, 0, 5, 5);
+        channels[0].Play();
+        FadeChannelDelay(0, 0, 2, channels[0].clip.length - 2);
+        FadeChannelDelay(1, 1, 2, channels[0].clip.length - 2);
+        Invoke("StartLoop", channels[0].clip.length - 2);
         //FadeChannelDelay(0, 1, 5, 5);
+    }
+
+    void StartLoop()
+    {
+        for(int i = 1; i<channels.Count; i++)
+        {
+            channels[i].Play();
+        }
     }
 
     private void Update()
@@ -50,7 +61,7 @@ public class MusicManager : MonoBehaviour
             source.clip = clips[i];
             source.volume = 0;
             source.loop = true;
-            source.Play();
+            //source.Play();
 
             channels.Add(source);
         }

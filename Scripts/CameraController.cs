@@ -22,6 +22,13 @@ public class CameraController : MonoBehaviour
     private bool dragScreen = false;
     private Vector2 previousMousePos;
 
+    public static CameraController main;
+
+    private void Awake()
+    {
+        main = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +42,7 @@ public class CameraController : MonoBehaviour
         MouseMovement();
         MouseZoom();
         previousMousePos = Input.mousePosition;
+        UpdateAIControl();
     }
 
     // Move the camera
@@ -82,6 +90,7 @@ public class CameraController : MonoBehaviour
 
     private void MouseMovement()
     {
+        if (isControlledByAI) return;
         float distToScreenEdge = 0.1f * Screen.height;
         Vector2 mousePosition = Input.mousePosition;
         if (Input.GetKey(KeyCode.Mouse1))
@@ -104,7 +113,7 @@ public class CameraController : MonoBehaviour
             {
                 transform.position -= Vector3.up * Time.deltaTime * moveSpeed;
             }
-            else if (mousePosition.y >= Screen.height - distToScreenEdge)
+            else if (mousePosition.y >= Screen.height - distToScreenEdge && mousePosition.x < Screen.width * 0.25f || mousePosition.x > Screen.width * 0.75f)
             {
                 transform.position += Vector3.up * Time.deltaTime * moveSpeed;
             }
@@ -124,5 +133,36 @@ public class CameraController : MonoBehaviour
         pos.z = zoom;
         pos.y += scroll * 0.5f;
         transform.position = pos;
+    }
+
+    private bool isControlledByAI = false;
+    private Vector3 targetPosition;
+    public float moveSpeedAI = 5;
+    public static void MoveTo(Vector3 position)
+    {
+        main.isControlledByAI = true;
+        main.targetPosition = position + new Vector3(0, -20, -50);
+
+    }
+    private void UpdateAIControl()
+    {
+        if (!isControlledByAI) return;
+        Vector3 toTarget = targetPosition - transform.position;
+        if (toTarget.magnitude <= moveSpeedAI * Time.deltaTime * 2)
+        {
+            transform.position = targetPosition;
+        } else
+        {
+            transform.position += toTarget.normalized * moveSpeedAI * Time.deltaTime;
+        }
+    }
+    public static void ReleaseControl()
+    {
+        main.isControlledByAI = false;
+    }
+    public static void TakeControl()
+    {
+        main.isControlledByAI = true;
+        main.targetPosition = main.transform.position;
     }
 }

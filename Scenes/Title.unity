@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playScene: SampleScene
-  creditsScene: 
+  creditsScene: Credits
 --- !u!4 &622539284
 Transform:
   m_ObjectHideFlags: 0

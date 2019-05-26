@@ -10,6 +10,8 @@ public class TileBehaviour : MonoBehaviour
 
     public Type type = Type.EMPTY;
 
+    public static TileBehaviour core;
+
     public GameObject visualEmpty;
     public GameObject visualMushroom;
     public GameObject visualCity;
@@ -44,7 +46,6 @@ public class TileBehaviour : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("Tile Behavir");
         point = GetComponent<PointController>();
 
         RefreshVisual();
@@ -67,7 +68,7 @@ public class TileBehaviour : MonoBehaviour
                 newVisual = visualMushroom;
                 break;
             case Type.CORE:
-                newVisual = visualMushroom;
+                newVisual = visualCore;
                 break;
             case Type.POWERUP:
                 newVisual = visualPowerup;
@@ -85,36 +86,43 @@ public class TileBehaviour : MonoBehaviour
     {
         if (type == Type.CITY)
         {
-            TurnManager.cityProgress -= TurnManager.cityTileWeight;
+
             TurnManager.cityTileCount--;
-            //CityPlayer.RemoveTerritory(point);
+            CityPlayer.RemoveTerritory(point);
         }
         else if (type == Type.MUSHROOM || type == Type.CORE)
         {
-            TurnManager.mushroomProgress -= TurnManager.mushroomTileWeight;
+
             TurnManager.mushroomTileCount--;
+            DisconnectionAlgorithm.listMushrooms.Remove(gameObject);
+
         }
         else if (type == Type.POWERUP)
         {
             SpawnSporePowerupVFX();
             UIManager.ShowPowerup("More Action Points !!!", 3);
+            Tutorial.main.OnFirstPowerUp();
             if (TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM) TurnManager.mushroomActionPointPerTurn += TurnManager.powerupTileWeight;
             else TurnManager.cityActionPointPerTurn += TurnManager.powerupTileWeight;
+        }
+
+        if (newType == Type.CORE && core != this)
+        {
+            if (core == null) core = this;
+            else newType = Type.MUSHROOM;
         }
 
         type = newType;
 
         if (newType == Type.CITY)
         {
-            TurnManager.cityProgress += TurnManager.cityTileWeight;
-            TurnManager.cityTileCount++;
-            //CityPlayer.AddTerritory(point);
+            TurnManager.cityTileCount++;            
         }
         else if (newType == Type.MUSHROOM || type == Type.CORE)
         {
-            TurnManager.mushroomProgress += TurnManager.mushroomTileWeight;
             TurnManager.mushroomTileCount++;
             SpawnSporeVFX();
+            DisconnectionAlgorithm.listMushrooms.Add(gameObject);
         }
 
         // Update Visuals here

@@ -32,7 +32,6 @@ public class ListCreation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("List ");
         float row = 0;
         float height = 0;
         bool pairRow = true;
@@ -52,6 +51,8 @@ public class ListCreation : MonoBehaviour
                 {
                     if (startPoints[k].type == TileBehaviour.Type.CITY)
                         CityPlayer.AddTerritory(aPoint.GetComponent<PointController>());
+                    if (startPoints[k].type == TileBehaviour.Type.MUSHROOM)
+                        DisconnectionAlgorithm.listMushrooms.Add(aPoint);
                     tb.SetType(startPoints[k].type);
                 }
             }

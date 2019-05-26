@@ -8,23 +8,13 @@ public class TurnManager : MonoBehaviour
 
     public static TurnType currentTurn = TurnType.MUSHROOM;
 
-    public static int mushroomActionPointsAmount = 0;
+    public static int mushroomActionPointsAmount = 5;
     public static int cityActionPointsAmount = 0;
-
-    public static float mushroomProgress = 3;
-    public static float cityProgress = 2;
-
-    public const float cityTileWeight = 0.1f;
-    public const float mushroomTileWeight = 0.2f;
 
     public static int mushroomActionPointPerTurn = 5;
     public static int cityActionPointPerTurn = 5;
 
-
     public const int powerupTileWeight = 2;
-
-
-
 
     public static int mushroomTileCount = 0;
     public static int cityTileCount = 0;
@@ -47,10 +37,6 @@ public class TurnManager : MonoBehaviour
         else cityActionPointsAmount -= amount;
     }
 
-    public static int GetPointsFromProgress(float progress)
-    {
-        return Mathf.FloorToInt(progress);
-    }
 
     public static void StartNewTurn()
     {
@@ -58,15 +44,16 @@ public class TurnManager : MonoBehaviour
         {
             Debug.Log("City Turn");
             currentTurn = TurnType.CITY;
-            mushroomActionPointsAmount += mushroomActionPointPerTurn;
-
-            CityPlayer.Decide();
+            cityActionPointsAmount += cityActionPointPerTurn;
+            Tutorial.main.OnFirstCityTurn();
+            CityPlayer.Play();
         }
         else
         {
             Debug.Log("Mushroom Turn");
             currentTurn = TurnType.MUSHROOM;
-            cityActionPointsAmount += cityActionPointPerTurn;
+            mushroomActionPointsAmount += mushroomActionPointPerTurn;
+            
         }
         UIManager.UpdateTurnLabel();
     }
@@ -89,6 +76,11 @@ public class TurnManager : MonoBehaviour
     {
         GUILayout.BeginVertical(GUI.skin.box);
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Skip all tutorial: ");
+        Tutorial.skipAll = GUILayout.Toggle(Tutorial.skipAll, "");
+        GUILayout.EndHorizontal();
+        
         GUILayout.Label("Current Team Turn: " + currentTurn);
         GUILayout.Label("Remaining Action Points: " + GetCurrentTeamActionPoints());
         if (GUILayout.Button("Skip Turn"))

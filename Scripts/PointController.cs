@@ -41,13 +41,16 @@ public class PointController : MonoBehaviour
     // mouse click
     void OnMouseDown()
     {
-        if(TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM)
+        if(TurnManager.currentTurn == TurnManager.TurnType.MUSHROOM && !Tutorial.active)
         {
             if (isHighlighted)
             {
+                //GetComponent<TileBehaviour>().type = TileBehaviour.Type.MUSHROOM;
                 gameManager.ExpandMushroom(this);
+                Tutorial.main.OnFirstSpread();
+                //GetComponent<TileBehaviour>().type = TileBehaviour.Type.CORE;
             }
-            else if(GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM)
+            else if(GetComponent<TileBehaviour>().type == TileBehaviour.Type.MUSHROOM || GetComponent<TileBehaviour>().type == TileBehaviour.Type.CORE)
             {
                 isSelected = true;
                 gameManager.TileSelect(this);
@@ -60,6 +63,10 @@ public class PointController : MonoBehaviour
         isSelected = true;
         // Selection visuelle
         GetComponent<TileBehaviour>().Highlight(Color.blue);
+        if (GetComponent<TileBehaviour>().type == TileBehaviour.Type.CORE)
+        {
+            Tutorial.main.OnClickCore();
+        }
     }
 
     public void Deselect()
@@ -75,8 +82,16 @@ public class PointController : MonoBehaviour
         {
             if(aTile.GetComponent<TileBehaviour>().type != TileBehaviour.Type.MUSHROOM)
             {
-                aTile.GetComponent<PointController>().isHighlighted = true;
-                aTile.GetComponent<PointController>().HighlightSelf();
+                if (aTile.GetComponent<TileBehaviour>().actionCost <= TurnManager.mushroomActionPointsAmount)
+                {
+                    aTile.GetComponent<PointController>().HighlightSelf();
+                    aTile.GetComponent<PointController>().isHighlighted = true;
+                }
+                else
+                {
+                    aTile.GetComponent<PointController>().HighlightSelfRed();
+                    aTile.GetComponent<PointController>().isHighlighted = false;
+                }
             }
         }
     }
@@ -91,7 +106,9 @@ public class PointController : MonoBehaviour
     }
     public void HighlightSelf()
     {
-        GetComponent<TileBehaviour>().Highlight(Color.cyan);
+        Color hc = Color.red;
+        if (TurnManager.CurrentTeamHasEnoughActionPoints(GetComponent<TileBehaviour>().actionCost)) hc = Color.cyan;
+        GetComponent<TileBehaviour>().Highlight(hc);
         // Highlight
     }
     public void NormalSelf()
@@ -99,5 +116,8 @@ public class PointController : MonoBehaviour
         GetComponent<TileBehaviour>().RemoveHighlight();
         // Normal
     }
-
+    public void HighlightSelfRed()
+    {
+        // Red
+    }
 }
