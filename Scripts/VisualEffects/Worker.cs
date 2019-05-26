@@ -65,6 +65,7 @@ public class Worker : MonoBehaviour
         Worker w = Instantiate(worker.gameObject).GetComponent<Worker>();
         w.startPosition = start;
         w.targetPosition = end;
+
         Vector3 toTarget = end - start;
         w.transform.rotation = Quaternion.LookRotation(toTarget, Vector3.back);
         w.targetScale = w.transform.localScale;

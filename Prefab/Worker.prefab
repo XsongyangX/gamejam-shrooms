@@ -29,6 +29,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8288093642350186383}
   - component: {fileID: 5173485039208060550}
+  - component: {fileID: -2611171237372315968}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -68,6 +69,25 @@ MonoBehaviour:
   targetScale: {x: 0, y: 0, z: 0}
   duration: 4
   spawnDuration: 2
+--- !u!95 &-2611171237372315968
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3116695588922076200}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0e049e812066d5e4fbb0579cf97f73c7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5824617133211282349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,6 +170,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.13256411
       objectReference: {fileID: 0}
+    - target: {fileID: -5178661895559278292, guid: b79d873d3679d3449baab0835f3b7b81,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3309142432014793627, guid: ad33e827dc8b68f4699d0b67bbff030f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b79d873d3679d3449baab0835f3b7b81, type: 3}
 --- !u!1 &2590941401927201444 stripped

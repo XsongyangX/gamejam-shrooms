@@ -459,6 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityPlayer: {fileID: 1973536087}
+  gameManager: {fileID: 300826897}
   numberOfBuiltTilesForMusic: 15
 --- !u!4 &823144238
 Transform:

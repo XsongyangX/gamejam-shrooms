@@ -6,7 +6,7 @@ public class TurnManager : MonoBehaviour
 {
     public enum TurnType { CITY, MUSHROOM};
 
-    public GameObject cityPlayer;
+    public GameObject cityPlayer, gameManager;
 
     public int numberOfBuiltTilesForMusic = 10;
 
@@ -46,6 +46,9 @@ public class TurnManager : MonoBehaviour
     {
         if (currentTurn == TurnType.MUSHROOM)
         {
+            gameManager.GetComponent<GameManager>().selectedTile.NormalVoisin();
+            gameManager.GetComponent<GameManager>().selectedTile.Deselect();
+
             Debug.Log("City Turn");
             currentTurn = TurnType.CITY;
             cityActionPointsAmount += cityActionPointPerTurn;

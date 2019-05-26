@@ -161,10 +161,12 @@ public class TileBehaviour : MonoBehaviour
         TurnManager.SpendActionPoints(actionCost);
         SetType(from.type);
 
-        Worker.Spawn(mushroomWoorker, from.transform.position, transform.position);
-
-        if (from.type == Type.MUSHROOM || from.type == Type.CORE)
+        // from a mushroom tile
+        if (from.type == Type.MUSHROOM || from.type == Type.CORE) {
+            Worker.Spawn(mushroomWoorker, from.transform.position, transform.position);
             SFXManager.Play(SFXManager.Style.COLONISE_SHROOM);
+        }
+        // from a human tile
         else
             SFXManager.Play(SFXManager.Style.COLONISE_HUMAN);
 
